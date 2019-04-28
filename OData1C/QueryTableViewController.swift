@@ -28,17 +28,19 @@ class QueryTableViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var outputTextView: UITextView!
     
     
-     @IBOutlet weak var requestButton: UIButton!
+    @IBOutlet weak var requestButton: UIButton!
     
     
    
     @IBAction func requestPressed(_ sender: Any) {
+        // Формирование запроса
         let urlComponents = getUrlComponents()
         guard let url = urlComponents?.url else { return }
-        print(url.absoluteURL.absoluteString)
+        // Загрузка данны
         downloadData(url: url) { data in
             if let data = data {
                 DispatchQueue.main.async {
+                    // Вывод результата запроса
                     self.outputTextView.text = String(data: data, encoding: .utf8)
                 }
             } else {
@@ -86,6 +88,8 @@ class QueryTableViewController: UITableViewController, UITextFieldDelegate {
         requestButton.isEnabled = checkInputData()
     }
     
+    // Проверка возможности запроса и сохранение данных в пользовательском хранилище
+    
     @IBAction func textFieldChanged(_ sender: UITextField) {
         requestButton.isEnabled = checkInputData()
         if let text = sender.text {
@@ -95,6 +99,7 @@ class QueryTableViewController: UITableViewController, UITextFieldDelegate {
         
     }
 
+    // Проверка данных на заполнение
     
     func checkInputData() -> Bool {
         if schemeTextField.text == nil ||
@@ -117,6 +122,8 @@ class QueryTableViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
+    // Извлечение сохранненых данных из пользовательского хранилища
+    
     func setupTextField() {
         schemeTextField.text = UserDefaults.standard.value(forKey: "9") as? String
         serverTextField.text = UserDefaults.standard.value(forKey: "0") as? String
@@ -130,6 +137,8 @@ class QueryTableViewController: UITableViewController, UITextFieldDelegate {
         orderTextField.text = UserDefaults.standard.value(forKey: "8") as? String
  
     }
+    
+    // Формирование запроса oData
     
     func getUrlComponents() -> URLComponents? {
         var urlComponents = URLComponents()
@@ -172,6 +181,8 @@ class QueryTableViewController: UITableViewController, UITextFieldDelegate {
         }
         return urlComponents
     }
+    
+    // Загрузка данных по запросу
     
     func downloadData(url: URL, completion: @escaping (Data?) -> Void) {
         
