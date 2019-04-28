@@ -98,6 +98,11 @@ class QueryTableViewController: UITableViewController, UITextFieldDelegate {
 
         
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 
     // Проверка данных на заполнение
     
